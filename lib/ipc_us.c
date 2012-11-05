@@ -305,6 +305,10 @@ retry_recv:
 	if (result == -1) {
 		if (errno == EAGAIN &&
 		    (processed > 0 || timeout == -1)) {
+			result = qb_ipc_us_ready(one_way, timeout, POLLIN);
+			if (result < 0) {
+				return result;
+			}
 			goto retry_recv;
 		} else if (errno == ECONNRESET || errno == EPIPE) {
 			sigpipe_ctl(QB_SIGPIPE_DEFAULT);
@@ -363,6 +367,10 @@ retry_recv:
 	if (result == -1) {
 		if (errno == EAGAIN &&
 		    (processed > 0 || timeout == -1)) {
+			result = qb_ipc_us_ready(one_way, timeout, POLLIN);
+			if (result < 0) {
+				return result;
+			}
 			goto retry_recv;
 		} else {
 			sigpipe_ctl(QB_SIGPIPE_DEFAULT);
