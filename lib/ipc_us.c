@@ -305,6 +305,11 @@ retry_recv:
 	if (result == -1) {
 		if (errno == EAGAIN &&
 		    (processed > 0 || timeout == -1)) {
+			struct timespec waitsleep = {
+					.tv_sec = 0,
+					.tv_nsec = 100000001
+			};
+			nanosleep(&waitsleep, 0);
 			goto retry_recv;
 		} else if (errno == ECONNRESET || errno == EPIPE) {
 			sigpipe_ctl(QB_SIGPIPE_DEFAULT);
@@ -363,6 +368,11 @@ retry_recv:
 	if (result == -1) {
 		if (errno == EAGAIN &&
 		    (processed > 0 || timeout == -1)) {
+			struct timespec waitsleep = {
+					.tv_sec = 0,
+					.tv_nsec = 100000001
+			};
+			nanosleep(&waitsleep, 0);
 			goto retry_recv;
 		} else {
 			sigpipe_ctl(QB_SIGPIPE_DEFAULT);
