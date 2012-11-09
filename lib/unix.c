@@ -240,6 +240,25 @@ qb_sys_fd_nonblock_cloexec_set(int32_t fd)
 	return res;
 }
 
+int32_t
+qb_sys_fd_block_set(int32_t fd)
+{
+	int32_t res = 0;
+	int32_t oldflags = fcntl(fd, F_GETFL);
+
+	if (oldflags < 0) {
+		oldflags = 0;
+	}
+
+	oldflags = oldflags & ~O_NONBLOCK;
+	res = fcntl(fd, F_SETFL, oldflags);
+	if (res == -1) {
+		res = -errno;
+		qb_util_log(LOG_ERR, "Could not set blocking on fd:%d", fd);
+	}
+
+	return res;
+}
 /*
  * atomic operations
  * --------------------------------------------------------------------------

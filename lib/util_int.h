@@ -83,4 +83,11 @@ int32_t qb_sys_circular_mmap(int32_t fd, void **buf, size_t bytes);
  */
 int32_t qb_sys_fd_nonblock_cloexec_set(int32_t fd);
 
+/**
+ * Delete O_NONBLOCK on a file descriptor.
+ * @param fd the file descriptor.
+ * @return 0 (success) or -errno
+ */
+int32_t qb_sys_fd_block_set(int32_t fd);
+
 #endif /* QB_UTIL_INT_H_DEFINED */

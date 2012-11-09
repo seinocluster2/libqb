@@ -298,6 +298,10 @@ qb_ipc_us_recv(struct qb_ipc_one_way * one_way,
 
 	sigpipe_ctl(QB_SIGPIPE_IGNORE);
 
+	result = qb_sys_fd_block_set(one_way->u.us.sock);
+	if (result < 0) {
+		return result;
+	}
 retry_recv:
 	result = recv(one_way->u.us.sock, &data[processed], to_recv,
 		      MSG_NOSIGNAL | MSG_WAITALL);
@@ -357,6 +361,10 @@ qb_ipc_us_recv_at_most(struct qb_ipc_one_way * one_way,
 
 	sigpipe_ctl(QB_SIGPIPE_IGNORE);
 
+	result = qb_sys_fd_block_set(one_way->u.us.sock);
+	if (result < 0) {
+		return result;
+	}
 retry_recv:
 	result = recv(one_way->u.us.sock, &data[processed], to_recv,
 		      MSG_NOSIGNAL | MSG_WAITALL);
